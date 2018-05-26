@@ -10,12 +10,14 @@ function qtranxf_collect_translations_deep( $qfields, $sep ) {
 	//qtranxf_dbg_log('qtranxf_collect_translations_deep: $content: ',$content);
 	if(is_string($content)) return qtranxf_join_texts($qfields,$sep);
 	$result = array();
-	foreach($content as $f => $r){
-		$texts = array();
-		foreach($qfields as $lang => &$vals){
-			$texts[$lang] = $vals[$f];
+	if($content != NULL) {
+		foreach($content as $f => $r){
+			$texts = array();
+			foreach($qfields as $lang => &$vals){
+				$texts[$lang] = $vals[$f];
+			}
+			$result[$f] = qtranxf_collect_translations_deep($texts,$sep); // recursive call
 		}
-		$result[$f] = qtranxf_collect_translations_deep($texts,$sep); // recursive call
 	}
 	return $result;
 }
